@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الانتقالات بين المقامات الرئيسة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4efe5;
+            --paper: rgba(255, 250, 242, 0.95);
+            --ink: #1f1b17;
+            --muted: #69584a;
+            --line: rgba(82, 61, 42, 0.16);
+            --teal: #205e63;
+            --sand: #c59656;
+            --olive: #65754a;
+            --rose: #a75549;
+            --shadow: 0 22px 64px rgba(43, 30, 18, 0.12);
+            --font-display: "Cairo", "Segoe UI", Tahoma, sans-serif;
+            --font-body: "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: var(--font-body);
+            font-size: 1.06rem;
+            font-weight: 500;
+            letter-spacing: 0;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top right, rgba(32, 94, 99, 0.14), transparent 24%),
+                radial-gradient(circle at left 18%, rgba(197, 150, 86, 0.14), transparent 20%),
+                linear-gradient(180deg, #fbf8f3 0%, var(--bg) 100%);
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: auto;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::before {
+            top: -110px;
+            right: -60px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(167, 85, 73, 0.14), transparent 68%);
+        }
+
+        body::after {
+            bottom: -100px;
+            left: -70px;
+            width: 340px;
+            height: 340px;
+            background: radial-gradient(circle, rgba(32, 94, 99, 0.12), transparent 72%);
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            width: min(1240px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 24px 0 42px;
+        }
+
+        .hero,
+        .panel,
+        .notice {
+            background: var(--paper);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 34px;
+            padding: 34px 26px 30px;
+            margin-bottom: 18px;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(125deg, rgba(32, 94, 99, 0.08), transparent 35%, rgba(197, 150, 86, 0.08) 100%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            display: grid;
+            gap: 18px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            background: rgba(32, 94, 99, 0.1);
+            color: var(--teal);
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-family: var(--font-display);
+        }
+
+        .title {
+            margin: 14px 0 10px;
+            font-size: clamp(2.1rem, 6vw, 4rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            font-family: var(--font-display);
+            font-weight: 800;
+        }
+
+        .hero p,
+        .notice p,
+        .panel-head p,
+        .intro-list li,
+        .transition-copy p,
+        .hint,
+        .footer-note {
+            color: var(--muted);
+            line-height: 1.9;
+            font-size: 1.04rem;
+        }
+
+        .hero-note {
+            padding: 18px;
+            border-radius: 24px;
+            background: linear-gradient(180deg, rgba(32, 94, 99, 0.08), rgba(32, 94, 99, 0.02));
+            border: 1px solid rgba(32, 94, 99, 0.13);
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 18px;
+        }
+
+        .admin-access-button {
+            width: auto;
+            min-width: 170px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(32, 94, 99, 0.18);
+            background: rgba(32, 94, 99, 0.1);
+            color: var(--teal);
+            box-shadow: none;
+        }
+
+        .admin-access-button:hover {
+            background: rgba(32, 94, 99, 0.14);
+            filter: none;
+        }
+
+        .hero-note strong,
+        .notice strong,
+        .transition-copy strong,
+        .step strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--teal);
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        .notice {
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 18px;
+            border-right: 5px solid var(--sand);
+        }
+
+        .layout {
+            display: grid;
+            gap: 18px;
+        }
+
+        .panel {
+            border-radius: 30px;
+            padding: 24px 20px;
+        }
+
+        .panel-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .panel-head h2 {
+            margin: 0 0 8px;
+            font-size: 1.55rem;
+            font-family: var(--font-display);
+            font-weight: 800;
+        }
+
+        .badge {
+            flex: 0 0 auto;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(197, 150, 86, 0.15);
+            color: #84541d;
+            font-weight: 700;
+            font-size: 0.92rem;
+            font-family: var(--font-display);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .stat {
+            padding: 16px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--line);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--teal);
+        }
+
+        .stat span {
+            display: block;
+            margin-top: 6px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .intro-list {
+            margin: 16px 0 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 10px;
+        }
+
+        .intro-list li {
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: rgba(32, 94, 99, 0.06);
+            border: 1px solid rgba(32, 94, 99, 0.11);
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .method-grid,
+        .maqam-summary-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .control-panel {
+            margin-top: 18px;
+        }
+
+        body:not(.admin-mode) .control-panel {
+            display: none;
+        }
+
+        .control-toggle {
+            cursor: pointer;
+            list-style: none;
+            font-weight: 700;
+            color: var(--teal);
+        }
+
+        .control-toggle::-webkit-details-marker {
+            display: none;
+        }
+
+        .control-toggle::before {
+            content: "＋";
+            display: inline-block;
+            margin-left: 10px;
+            color: var(--sand);
+            font-size: 1.1rem;
+        }
+
+        details[open] .control-toggle::before {
+            content: "−";
+        }
+
+        .control-body {
+            display: grid;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .control-note {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.85;
+        }
+
+        .control-status-note {
+            margin: 0;
+            padding: 10px 12px;
+            border-radius: 16px;
+            background: rgba(32, 94, 99, 0.06);
+            border: 1px solid rgba(32, 94, 99, 0.11);
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .admin-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(31, 27, 23, 0.42);
+            z-index: 20;
+        }
+
+        .admin-modal.is-visible {
+            display: flex;
+        }
+
+        .admin-modal-card {
+            width: min(460px, 100%);
+            padding: 22px;
+            border-radius: 24px;
+            background: rgba(255, 250, 242, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            box-shadow: var(--shadow);
+        }
+
+        .admin-modal-card h3 {
+            margin: 0 0 10px;
+            color: var(--teal);
+        }
+
+        .admin-modal-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.85;
+        }
+
+        .player-modal-card {
+            width: min(920px, 100%);
+            display: grid;
+            gap: 16px;
+        }
+
+        .player-modal-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .player-modal-head div {
+            display: grid;
+            gap: 8px;
+        }
+
+        .player-close-button {
+            width: auto;
+            min-width: 110px;
+            box-shadow: none;
+        }
+
+        .player-frame {
+            width: 100%;
+            border-radius: 22px;
+            background: #000;
+            overflow: hidden;
+            border: 1px solid rgba(32, 94, 99, 0.12);
+        }
+
+        .player-frame video {
+            display: block;
+            width: 100%;
+            max-height: min(72vh, 720px);
+            background: #000;
+        }
+
+        .player-note {
+            margin: 0;
+            padding: 10px 12px;
+            border-radius: 16px;
+            background: rgba(32, 94, 99, 0.06);
+            border: 1px solid rgba(32, 94, 99, 0.11);
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .admin-modal-form {
+            display: grid;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .admin-password-input {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--ink);
+            font: inherit;
+        }
+
+        .admin-modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .admin-error {
+            min-height: 24px;
+            color: #8d473d;
+            font-weight: 700;
+        }
+
+        .admin-note {
+            margin: 0;
+            padding: 10px 12px;
+            border-radius: 16px;
+            background: rgba(32, 94, 99, 0.06);
+            border: 1px solid rgba(32, 94, 99, 0.11);
+            color: var(--muted);
+        }
+
+        .control-stats,
+        .control-source-grid,
+        .control-actions {
+            display: grid;
+            gap: 12px;
+        }
+
+        .control-stats {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .control-stat,
+        .control-block {
+            padding: 14px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid var(--line);
+        }
+
+        .control-stat strong,
+        .control-block strong {
+            display: block;
+            color: var(--teal);
+            margin-bottom: 6px;
+        }
+
+        .control-stat p,
+        .control-block p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .control-source-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .control-source-button,
+        .control-action-button {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            font: inherit;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: 0.18s ease;
+        }
+
+        .control-source-button {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--ink);
+            box-shadow: none;
+        }
+
+        .control-source-button.is-open {
+            background: linear-gradient(180deg, #2f6f74, #205e63);
+            color: #fff;
+            border-color: rgba(32, 94, 99, 0.2);
+        }
+
+        .control-source-button.is-unavailable {
+            opacity: 0.68;
+        }
+
+        .control-source-button small {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.82rem;
+        }
+
+        .control-actions {
+            grid-template-columns: 1.1fr 0.9fr 0.9fr;
+            align-items: end;
+        }
+
+        .control-select {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--ink);
+            font: inherit;
+        }
+
+        .control-input {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--ink);
+            font: inherit;
+        }
+
+        .control-action-button {
+            background: linear-gradient(180deg, #2f6f74, #205e63);
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(32, 94, 99, 0.18);
+        }
+
+        .control-action-button.secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--ink);
+            box-shadow: none;
+        }
+
+        .control-action-button:disabled {
+            opacity: 0.58;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .method-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .method-card,
+        .maqam-summary-card {
+            padding: 16px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid var(--line);
+        }
+
+        .method-card strong,
+        .maqam-summary-card strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--teal);
+        }
+
+        .method-card p,
+        .maqam-summary-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.85;
+        }
+
+        .maqam-summary-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .maqam-summary-card {
+            display: grid;
+            gap: 10px;
+        }
+
+        .maqam-summary-card h3 {
+            margin: 0;
+            font-size: 1.08rem;
+        }
+
+        .summary-meta {
+            font-size: 0.9rem;
+            color: #4f5649;
+        }
+
+        .summary-line {
+            padding: 10px 12px;
+            border-radius: 16px;
+            background: rgba(32, 94, 99, 0.05);
+            border: 1px solid rgba(32, 94, 99, 0.09);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #3b3027;
+            font-family: var(--font-display);
+        }
+
+        select,
+        button {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            font: inherit;
+            font-family: var(--font-display);
+        }
+
+        select {
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--ink);
+        }
+
+        button {
+            padding: 14px 18px;
+            background: linear-gradient(180deg, #2f6f74, #205e63);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(32, 94, 99, 0.18);
+        }
+
+        button:hover {
+            filter: brightness(1.03);
+        }
+
+        .hint {
+            margin: 14px 0 0;
+            font-size: 0.96rem;
+        }
+
+        .transitions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .transition-card {
+            padding: 18px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid var(--line);
+            box-shadow: 0 10px 24px rgba(70, 45, 21, 0.06);
+        }
+
+        .transition-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .transition-index {
+            flex: 0 0 auto;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(32, 94, 99, 0.09);
+            color: var(--teal);
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+
+        .transition-route {
+            margin: 0;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            font-family: var(--font-display);
+            font-weight: 800;
+        }
+
+        .route-pill {
+            display: inline-flex;
+            margin-top: 10px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(197, 150, 86, 0.14);
+            color: #7e5018;
+            font-size: 0.88rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+        }
+
+        .transition-copy {
+            display: grid;
+            gap: 12px;
+        }
+
+        .transition-copy p {
+            margin: 0;
+            font-size: 0.97rem;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 2px;
+        }
+
+        .chip {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(101, 117, 74, 0.12);
+            color: #55613d;
+            font-size: 0.84rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+        }
+
+        .transition-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 4px;
+            align-items: center;
+        }
+
+        .telegram-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 168px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, #2f6f74, #205e63);
+            border: none;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(32, 94, 99, 0.16);
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: var(--font-display);
+        }
+
+        .telegram-link.is-locked {
+            background: linear-gradient(180deg, #9da79c, #7d857c);
+            box-shadow: none;
+            cursor: not-allowed;
+            opacity: 0.88;
+        }
+
+        .transition-link-note {
+            font-size: 0.9rem;
+            color: #5f6756;
+        }
+
+        .footer-note {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 0.98rem;
+        }
+
+        @media (min-width: 960px) {
+            .hero-grid {
+                grid-template-columns: 1.15fr 0.85fr;
+                align-items: end;
+            }
+
+            .layout {
+                grid-template-columns: 0.9fr 1.1fr;
+            }
+        }
+
+        @media (max-width: 880px) {
+            .filters,
+            .stats,
+            .transitions-grid,
+            .method-grid,
+            .maqam-summary-grid,
+            .control-stats,
+            .control-source-grid,
+            .control-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .page {
+                width: min(100%, calc(100% - 18px));
+                padding-top: 10px;
+            }
+
+            .hero,
+            .panel,
+            .notice {
+                border-radius: 24px;
+                padding: 20px 16px;
+            }
+
+            .panel-head,
+            .transition-top {
+                display: block;
+            }
+
+            .badge,
+            .transition-index {
+                display: inline-flex;
+                margin-top: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="hero">
+            <div class="hero-grid">
+                <div>
+                    <span class="eyebrow">تطبيق ويب تدريبي</span>
+                    <h1 class="title" id="pageTitle">الانتقالات بين المقامات الرئيسة</h1>
+                    <p>
+                        هذا المشروع مخصص لتنظيم الانتقالات بين المقامات الثمانية الرئيسة في الأداء القرآني،
+                        بحيث تُعرض كل انتقالة في خانة مستقلة مع شرح وصفي حذر يركّز على لون التلاوة،
+                        واتجاه الأداء، والتنبيه التدريبي المناسب.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="admin-access-button" id="adminAccessButton" type="button">دخول الإدارة</button>
+                    </div>
+                </div>
+                <div class="hero-note">
+                    <strong>فكرة التطبيق</strong>
+                    يجمع التطبيق جميع الانتقالات الممكنة بين المقامات الرئيسة في بطاقات مستقلة،
+                    بحيث يمكن مراجعة كل انتقالة وحدها مع وصف تعبيري، وفائدة تدريبية، وتنبيه عملي.
+                </div>
+            </div>
+        </header>
+
+        <main class="layout">
+            <section class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>منطلق المشروع</h2>
+                        <p>قاعدة عمل واضحة تساعد على دراسة كل انتقالة على حدة بدل جمعها في وصف عام.</p>
+                    </div>
+                    <span class="badge">عرض كامل ومنظم</span>
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <strong id="maqamatCount">8</strong>
+                        <span>عدد المقامات الرئيسة الداخلة في التطبيق.</span>
+                    </div>
+                    <div class="stat">
+                        <strong id="transitionsCount">56</strong>
+                        <span>عدد الانتقالات التدريبية بين المقامات الثمانية عند الانتقال من مقام إلى مقام آخر.</span>
+                    </div>
+                </div>
+
+                <ul class="intro-list">
+                    <li>كل بطاقة تمثل انتقالة واحدة مستقلة: من مقام منطلق إلى مقام هدف.</li>
+                    <li>كل انتقالة تتضمن وصفًا تعبيريًا، فائدة تدريبية، وتنبيهًا عمليًا عند التنفيذ.</li>
+                    <li>يعتمد العرض على جميع الانتقالات التدريبية الممكنة بين المقامات الثمانية، بما فيها المسارات الصعبة التي تحتاج تمهيدًا أو ضبطًا أكبر.</li>
+                </ul>
+            </section>
+        </main>
+
+        <section class="panel" style="margin-top: 18px;">
+            <div class="panel-head">
+                <div>
+                    <h2>خلاصة منهجية الأداء</h2>
+                    <p>انتقاء عملي من القواعد التي تخدم الانتقال السليم وتمنع التكلف والخلل السمعي.</p>
+                </div>
+                <span class="badge">مرتكزات العمل</span>
+            </div>
+
+            <div class="method-grid" id="methodGrid"></div>
+        </section>
+        <section class="panel" style="margin-top: 18px;">
+            <div class="panel-head">
+                <div>
+                    <h2>خريطة المقامات</h2>
+                    <p>ملخص سريع يوضح وظيفة كل مقام، والمسارات الأقرب إليه، والمسارات التي تحتاج تمهيدًا أو وقفة أوضح.</p>
+                </div>
+                <span class="badge">مرجع تطبيقي</span>
+            </div>
+
+            <div class="maqam-summary-grid" id="maqamSummaryGrid"></div>
+        </section>
+
+        <section class="panel control-panel">
+            <details id="controlPanelDetails">
+                <summary class="control-toggle">لوحة التحكم بالتلاوات</summary>
+                <div class="control-body">
+                    <p class="control-note">هذه اللوحة خاصة بالإدارة داخل هذا المتصفح. اختر الانتقالة التي تريدها ثم اسمح بتشغيل الفيديو أو أوقفه.</p>
+                    <p class="admin-note">لإظهار هذه اللوحة أو إخفائها لاحقًا: انقر نقرًا مزدوجًا على عنوان الصفحة الرئيس في الأعلى.</p>
+                    <div class="control-block">
+                        <strong>التحكم في تشغيل الفيديو</strong>
+                        <p>اختر انتقالة بعينها ثم اسمح بتشغيل الفيديو أو أوقفه.</p>
+                        <div class="control-actions">
+                            <select class="control-select" id="transitionControlSelect"></select>
+                            <button class="control-action-button" id="openTransitionButton" type="button">السماح بالتشغيل</button>
+                            <button class="control-action-button secondary" id="closeTransitionButton" type="button">إيقاف التشغيل</button>
+                        </div>
+                        <p class="control-status-note" id="transitionControlStatus"></p>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <section class="panel" style="margin-top: 18px;">
+            <div class="panel-head">
+                <div>
+                    <h2>البطاقات التفصيلية للانتقالات</h2>
+                    <p>خانة مستقلة لكل انتقالة مع شرح تعبيري وتوجيه تدريبي أولي.</p>
+                </div>
+                <span class="badge">56 خانة</span>
+            </div>
+
+            <div class="transitions-grid" id="transitionsGrid"></div>
+        </section>
+
+        <p class="footer-note">النسخة الحالية تأسيسية ومنظمة، والخطوة التالية يمكن أن تكون إضافة أمثلة تلاوية قرآنية لكل انتقالة بصياغة منضبطة.</p>
+    </div>
+
+    <div class="admin-modal" id="adminModal" aria-hidden="true">
+        <div class="admin-modal-card">
+            <h3>دخول الإدارة</h3>
+            <p>أدخل كلمة المرور لإظهار لوحة التحكم الداخلية الخاصة بك.</p>
+            <div class="admin-modal-form">
+                <input class="admin-password-input" id="adminPasswordInput" type="password" placeholder="كلمة المرور" />
+                <div class="admin-error" id="adminError"></div>
+                <div class="admin-modal-actions">
+                    <button id="adminSubmitButton" type="button">دخول</button>
+                    <button class="control-action-button secondary" id="adminCancelButton" type="button">إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-modal" id="playerModal" aria-hidden="true">
+        <div class="admin-modal-card player-modal-card">
+            <div class="player-modal-head">
+                <div>
+                    <h3 id="playerTitle">تشغيل الفيديو</h3>
+                    <p id="playerDescription">يمكنك رفع الصوت من شريط التحكم أسفل الفيديو إذا كان منخفضًا.</p>
+                </div>
+                <button class="control-action-button secondary player-close-button" id="playerCloseButton" type="button">إغلاق</button>
+            </div>
+            <div class="player-frame">
+                <video id="recitationPlayer" controls preload="metadata"></video>
+            </div>
+            <p class="player-note">المشغل داخل الصفحة الآن، لذلك سيظهر شريط الصوت والتقديم والإيقاف مباشرة.</p>
+        </div>
+    </div>
+
+    <script>
+        const maqamat = [
+            {
+                id: 'saba',
+                name: 'الصبا',
+                family: 'الخشوع والتأثر',
+                color: '#556b2f',
+                role: 'يناسب مواضع الخشوع والتذلل ومشاهد الوعيد التي تحتاج انكسارًا ظاهرًا.',
+                smoothTargets: ['الحجاز', 'البيات', 'الكرد'],
+                character: 'جو خاشع عميق يميل إلى التضرع وإبراز الانكسار',
+                release: 'يحتاج عند الخروج منه إلى تهدئة الانتقال حتى لا يبقى أثر الشجن غالبًا على الجملة التالية',
+                caution: 'لا يُستحسن القفز منه مباشرة بحدة من غير تمهيد يسمعه المتلقي بوضوح'
+            },
+            {
+                id: 'nahawand',
+                name: 'النهاوند',
+                family: 'السعة والمرونة',
+                color: '#284c78',
+                role: 'يلائم السرد القصصي والتفصيل الهادئ ووصف النعيم وما يتصل بالتأمل.',
+                smoothTargets: ['الكرد', 'السيكاه', 'الرست'],
+                character: 'جو متزن مرن يسمح بتوسيع المعنى من غير صدام حاد',
+                release: 'يمكن أن يكون محطة وسطى تليّن الخروج من مقام شديد وتفتح باب المقام الهدف',
+                caution: 'ينبغي تثبيت الاستقرار فيه قبل البناء عليه نحو مقصد جديد'
+            },
+            {
+                id: 'ajam',
+                name: 'العجم',
+                family: 'الهيبة والانشراح',
+                color: '#8c6128',
+                role: 'يخدم معاني الجلال والظهور والقوة وإثبات العظمة والتمكين.',
+                smoothTargets: ['الرست', 'البيات', 'النهاوند'],
+                character: 'جو واسع مشرق يبرز المعاني القوية والواضحة',
+                release: 'يفتح المجال لرفع الإحساس نحو الجلال والظهور بعد مقام أكثر انكماشًا',
+                caution: 'إذا دُخل عليه من غير تمهيد بدا الانتقال جافًا أو متكلفًا'
+            },
+            {
+                id: 'bayat',
+                name: 'البيات',
+                family: 'الألفة والسكينة',
+                color: '#9c5648',
+                role: 'مقام تأسيسي يصلح للافتتاح والعودة إلى حالة الاستقرار والوقار العام.',
+                smoothTargets: ['النهاوند', 'الرست', 'الكرد'],
+                character: 'جو دافئ قريب من النفس يناسب الاستقرار والرجوع إلى المألوف',
+                release: 'يصلح كمحطة لاحتواء التوتر بعد انتقالات قوية أو بعيدة',
+                caution: 'ينبغي المحافظة على بساطته حتى لا يفقد طبيعته الهادئة'
+            },
+            {
+                id: 'sikah',
+                name: 'السيكاه',
+                family: 'الروحانية الدقيقة',
+                color: '#5e4038',
+                role: 'يميل إلى الرجاء والسكينة الداخلية وإبراز اللطف في الجملة القرآنية.',
+                smoothTargets: ['الرست', 'البيات', 'النهاوند'],
+                character: 'جو روحي خاص يحتاج إلى عناية في مدخل الجملة واستقرارها',
+                release: 'الدخول إليه الناجح يكون غالبًا بعد تخفيف الحركة السابقة وإعداد السامع للون مختلف',
+                caution: 'أي استعجال في تثبيته يربك السامع ويضعف وضوح الانتقال'
+            },
+            {
+                id: 'hijaz',
+                name: 'الحجاز',
+                family: 'الهيبة والرهبة',
+                color: '#8b4039',
+                role: 'يناسب الدعاء والمناجاة والرهبة والنداءات القوية ذات الحرارة الوجدانية.',
+                smoothTargets: ['الصبا', 'النهاوند', 'البيات'],
+                character: 'جو مهيب واضح النبرة يناسب المعاني الثقيلة والنداءات القوية',
+                release: 'يحتاج غالبًا إلى مدخل محسوب حتى يبدو التحول مقصودًا لا مفاجئًا فقط',
+                caution: 'المبالغة في حدته قد تفسد أثره الوقور وتدفعه إلى التشنج'
+            },
+            {
+                id: 'rast',
+                name: 'الرست',
+                family: 'الأصل والاتزان',
+                color: '#215f59',
+                role: 'يعبر عن الثبات والبشارة والوضوح، ويصلح لمواضع التقرير والقوة.',
+                smoothTargets: ['البيات', 'السيكاه', 'النهاوند'],
+                character: 'جو ثابت راسخ يعطي إحساسًا بالثقة والاعتدال',
+                release: 'يصلح للعودة إلى أرضية مستقرة بعد انتقالات متعددة',
+                caution: 'قوته لا تعني الجفاف، بل تحتاج إلى سعة ووضوح في الأداء'
+            },
+            {
+                id: 'kurd',
+                name: 'الكرد',
+                family: 'الصفاء والرقة',
+                color: '#4f555d',
+                role: 'يفيد في الرقة والتأمل والهدوء بعد مسارات أشد حرارة أو امتلاء.',
+                smoothTargets: ['البيات', 'النهاوند', 'السيكاه'],
+                character: 'جو رقيق صافي يصلح للهدوء والتخفيف بعد حدة أو امتلاء',
+                release: 'يساعد على تهدئة المسار والرجوع إلى سياق أبسط وأهدأ',
+                caution: 'ضعفه الظاهر لا يعني إهماله، بل يحتاج إلى تثبيت هادئ ومقنع'
+            }
+        ];
+
+        const methodologyPrinciples = [
+            {
+                title: 'المعنى يقود الانتقال',
+                copy: 'اختيار المقام لا يبدأ من الحنجرة بل من استيعاب السياق؛ فإذا تبدل المعنى تبدلت معه وجهة الأداء بصورة مقنعة ومفهومة.'
+            },
+            {
+                title: 'الدرجة المشتركة أولًا',
+                copy: 'المسارات الأقرب تُنفذ غالبًا عبر نقطة عبور آمنة بين المقامين، من غير قفز حاد ولا تغيير مفاجئ يربك الأذن.'
+            },
+            {
+                title: 'القرار والجواب لخدمة الراحة',
+                copy: 'عند المسارات الأبعد ينفع إنهاء المقام الأول في طبقة أعلى ثم البدء بالمقام الجديد من قرار مريح بعد وقفة أو نفس منضبط.'
+            }
+        ];
+
+        const transitionStudyMap = {
+            'bayat-rast': {
+                method: 'ينفع فيه هبوط مريح بعد تسليم البيات، ثم فتح الرست بجملة أكثر ثباتًا ووضوحًا.',
+                meaning: 'يناسب الانتقال من التمهيد الهادئ إلى مقام يبرز التقرير والبشارة والوضوح.'
+            },
+            'bayat-nahawand': {
+                method: 'يمكن فتحه من ركوز قريب بعد تمام البيات، مع توسيع المسار بهدوء من غير قفزة.',
+                meaning: 'يلائم التحول من السرد العام إلى تفصيل القصة أو وصف النعيم بتدرج ألين.'
+            },
+            'bayat-kurd': {
+                method: 'ينجح غالبًا بتخفيف حرارة البيات قليلًا ثم إدخال الكرد بلون أصفى وأرق.',
+                meaning: 'يصلح لنقل السامع من الألفة إلى التأمل الهادئ والرقة المتخففة.'
+            },
+            'bayat-saba': {
+                method: 'الأدق فيه تسليم البيات كاملًا ثم خفض الجملة التالية حتى يظهر انكسار الصبا بوضوح.',
+                meaning: 'يناسب الانتقال المفاجئ من التمهيد الوقور إلى آيات الوعيد أو مشاهد الخشوع الشديد.'
+            },
+            'bayat-hijaz': {
+                method: 'ينفع فيه رفع حضور الجملة بعد تسليم البيات، ثم إدخال الحجاز بحرارة محسوبة.',
+                meaning: 'يلائم الانتقال إلى النداء القوي أو الدعاء أو مواضع الرهبة الواضحة.'
+            },
+            'bayat-ajam': {
+                method: 'يحتاج إلى تسليم واضح للبيات ثم فتح العجم بجملة أرسخ وأوسع من بدايتها.',
+                meaning: 'يناسب الانتقال إلى معاني العظمة والملكوت والقوة الظاهرة.'
+            },
+            'bayat-sikah': {
+                method: 'ينجح بتليين نهاية البيات ثم إدخال السيكاه بلطف من غير استعجال في تثبيته.',
+                meaning: 'يلائم مواضع الطمأنينة والرجاء بعد افتتاح مستقر ومأنوس.'
+            },
+            'rast-bayat': {
+                method: 'يصلح فيه هبوط منظم من الرست ثم العودة إلى جملة بيات أكثر هدوءًا واتزانًا.',
+                meaning: 'يناسب الرجوع من الفخامة والتقرير إلى السرد المعتدل أو التمهيد لختام التلاوة.'
+            },
+            'rast-nahawand': {
+                method: 'ينفع فيه تليين صرامة الرست آخر الجملة ثم فتح النهاوند في امتداد أوسع وأهدأ.',
+                meaning: 'يلائم الانتقال من التقرير الواضح إلى التفصيل القصصي أو الوصف الجمالي.'
+            },
+            'rast-sikah': {
+                method: 'يمكن بناؤه من استقرار الرست مع ميل لطيف إلى داخلية أوضح قبل تثبيت السيكاه.',
+                meaning: 'يناسب التحول من إثبات المعنى إلى بث الرجاء وحسن الظن والسكينة.'
+            },
+            'rast-ajam': {
+                method: 'ينفع فيه إبقاء القوة الحاضرة ثم توسيعها في العجم بجملة أكثر حسمًا.',
+                meaning: 'يلائم مواضع إحقاق الحق وإظهار الجلال بنبرة أقوى وأصرح.'
+            },
+            'rast-saba': {
+                method: 'الأدق فيه تمام الرست ثم وقفة خفيفة أو نفس جديد، وبعدها بدء الصبا من قرار أوضح.',
+                meaning: 'يناسب الانتقال الصادم من القوة والبشارة إلى الخوف والخشية والتذلل.'
+            },
+            'rast-hijaz': {
+                method: 'ينفع فيه حفظ هيبة الرست ثم إدخال حرارة الحجاز من جملة جديدة محسوبة.',
+                meaning: 'يلائم الانتقال إلى العتاب الوجداني أو المناجاة أو النداءات الشديدة.'
+            },
+            'rast-kurd': {
+                method: 'ينجح بتخفيف ثقل الرست آخرًا ثم تسليم الجملة التالية للكرد برقة أوضح.',
+                meaning: 'يناسب التحول من الفخامة إلى التأمل الهادئ واستحضار الرقة الداخلية.'
+            },
+            'nahawand-rast': {
+                method: 'ينفع فيه جمع امتداد النهاوند ثم الصعود التدريجي نحو جملة رست أكثر تقريرًا.',
+                meaning: 'يلائم الخروج من القصة أو الوصف إلى العبرة أو الحكم أو البيان الحاسم.'
+            },
+            'nahawand-saba': {
+                method: 'الأدق فيه إنهاء النهاوند بهدوء ثم إظهار انكسار الصبا في الجملة التالية بلا عجلة.',
+                meaning: 'يناسب الانتقال من وصف النعيم أو السرد اللين إلى التحذير أو الخشوع العميق.'
+            },
+            'nahawand-hijaz': {
+                method: 'ينجح بزيادة حرارة المسار بعد تمام النهاوند ثم تثبيت الحجاز بوضوح.',
+                meaning: 'يلائم الانتقال من الوصف الهادئ إلى ذروة الدعاء أو المناجاة أو النداء.'
+            },
+            'nahawand-kurd': {
+                method: 'يمكن بناؤه بتخفيف امتداد النهاوند ثم إدخال الكرد بلون أخف وأكثر صفاء.',
+                meaning: 'يناسب مواصلة الجو التأملي في مسار أهدأ وأرق.'
+            },
+            'nahawand-bayat': {
+                method: 'ينفع فيه تفريغ الشحنة الوجدانية للنهاوند ثم العودة إلى بيات مستقر ومطمئن.',
+                meaning: 'يلائم الرجوع من القصة أو الوصف إلى أساس وقور أو بداية موضوع جديد.'
+            },
+            'nahawand-ajam': {
+                method: 'يصلح فيه تسليم النهاوند كاملًا ثم فتح العجم بحضور أوسع وأقوى.',
+                meaning: 'يناسب التحول من التفصيل اللين إلى إبراز العظمة والتمكين.'
+            },
+            'nahawand-sikah': {
+                method: 'ينجح بتلطيف نهاية النهاوند ثم فتح السيكاه بجملة ذات روح أهدأ وألطف.',
+                meaning: 'يلائم الانتقال إلى معاني الرجاء والأنس والفرح الداخلي.'
+            },
+            'saba-hijaz': {
+                method: 'ينفع فيه الحفاظ على أثر الصبا ثم رفع الجملة التالية بحرارة الحجاز من غير كسر مفاجئ.',
+                meaning: 'يناسب الانتقال من الانكسار والابتلاء إلى الدعاء الملح والمناجاة الحارة.'
+            },
+            'saba-nahawand': {
+                method: 'ينجح بتسليم الصبا بهدوء ثم فتح النهاوند في جملة ألين وأوسع نفسًا.',
+                meaning: 'يلائم الخروج من الوعيد والخشوع إلى الرحمة أو السكينة أو الوصف اللطيف.'
+            },
+            'saba-bayat': {
+                method: 'الأقرب فيه أن يعود القارئ من الصبا إلى بيات مستقر بعد تسليم واضح وانخفاض التوتر.',
+                meaning: 'يناسب الرجوع من الانكسار الشديد إلى توازن وقور يكمل التلاوة بهدوء.'
+            },
+            'saba-kurd': {
+                method: 'ينفع فيه تخفيف حدة الصبا ثم إدخال الكرد بلون متأمل ومسالم.',
+                meaning: 'يلائم تحويل الحزن المباشر إلى تسليم هادئ وتأمل أرق.'
+            },
+            'saba-rast': {
+                method: 'يحتاج إلى رفع تدريجي بعد تمام الصبا حتى يستقر الرست في جملة واضحة مستقلة.',
+                meaning: 'يناسب الانتقال من مشهد الضعف والتذلل إلى وضوح الأمر أو ثبات المعنى.'
+            },
+            'saba-sikah': {
+                method: 'ينجح بتليين انكسار الصبا آخرًا ثم فتح السيكاه برجاء ظاهر من غير تعجل.',
+                meaning: 'يلائم الانتقال من الكرب والحزن إلى بارقة طمأنينة وانفراج.'
+            },
+            'saba-ajam': {
+                method: 'في المسار التدريبي المعتمد هنا يمكن تسليم الصبا كاملًا ثم فتح العجم مباشرة بجملة جديدة ورفع مضبوط.',
+                meaning: 'يناسب إظهار قدرة الله وعظمته بعد سياق يبرز ضعف الإنسان وتذلله.'
+            },
+            'hijaz-saba': {
+                method: 'ينفع فيه خفض حرارة الحجاز شيئًا فشيئًا ثم إظهار انكسار الصبا في الجملة التالية.',
+                meaning: 'يلائم الانتقال من المناجاة الحارة إلى التضرع الأعمق والبكاء.'
+            },
+            'hijaz-bayat': {
+                method: 'يصلح فيه تهدئة توتر الحجاز ثم الرجوع إلى بيات منضبط ومريح.',
+                meaning: 'يناسب الخروج من جو الدعاء والرهبة إلى سرد أهدأ وأكثر استقرارًا.'
+            },
+            'hijaz-rast': {
+                method: 'ينجح بتسليم الحجاز بوضوح ثم تثبيت الرست بجملة تحمل يقينًا وثباتًا.',
+                meaning: 'يلائم الانتقال من التضرع إلى الاطمئنان بالاستجابة وإظهار اليقين.'
+            },
+            'hijaz-nahawand': {
+                method: 'ينفع فيه امتصاص حرارة الحجاز آخرًا ثم فتح النهاوند بهدوء أوسع.',
+                meaning: 'يناسب الانتقال من الرهبة والمناجاة إلى الرحمة والانبساط اللطيف.'
+            },
+            'hijaz-kurd': {
+                method: 'يمكن بناؤه بتقليل شدة الحجاز ثم تسليم الجملة التالية للكرد في رقة أوضح.',
+                meaning: 'يلائم التوبة الهادئة والتفكر بعد بلوغ ذروة الخوف أو الدعاء.'
+            },
+            'hijaz-sikah': {
+                method: 'ينجح بالحفاظ على الأثر الروحي للحجاز ثم إدخال السيكاه بطمأنينة ألين.',
+                meaning: 'يناسب الانتقال من المناجاة إلى الرجاء والأنس الروحي.'
+            },
+            'hijaz-ajam': {
+                method: 'يصلح فيه إنهاء الحجاز ثم فتح العجم بجملة أكثر إعلانًا وقوة.',
+                meaning: 'يلائم ختم الدعاء بإظهار القدرة والوحدانية والعزة.'
+            },
+            'sikah-rast': {
+                method: 'ينفع فيه توسيع السيكاه تدريجيًا حتى يثبت الرست بجملة أرسخ.',
+                meaning: 'يناسب الانتقال من الرجاء والسكينة إلى اليقين والقوة الواضحة.'
+            },
+            'sikah-bayat': {
+                method: 'يمكن فيه إعادة الجملة إلى بيات أقرب إلى الأصل بعد تمام السيكاه.',
+                meaning: 'يلائم الرجوع من الحالة الروحانية الخاصة إلى سرد معتدل مستقر.'
+            },
+            'sikah-nahawand': {
+                method: 'ينجح بتوسيع دفء السيكاه ثم فتح النهاوند في امتداد وصفي أهدأ.',
+                meaning: 'يناسب مواصلة وصف النعيم أو الجمال بعد جو الرجاء والأنس.'
+            },
+            'sikah-hijaz': {
+                method: 'ينفع فيه الانتقال من هدوء السيكاه إلى حرارة الحجاز بجملة جديدة أوضح.',
+                meaning: 'يلائم التحول من ذكر النعم إلى الدعاء أو الافتقار أو النداء.'
+            },
+            'sikah-saba': {
+                method: 'الأدق فيه تمام السيكاه ثم إظهار الصبا بانكسار مستقل حتى لا يضيع الفرق بينهما.',
+                meaning: 'يناسب الانتقال من الرجاء الداخلي إلى الخشية أو التذكير بالموت والمآل.'
+            },
+            'sikah-ajam': {
+                method: 'ينجح بتقوية حضور الجملة بعد السيكاه ثم فتح العجم من غير إفراط.',
+                meaning: 'يلائم الانتقال من الفرح الداخلي إلى إظهار النصر أو العزة أو الجلال.'
+            },
+            'sikah-kurd': {
+                method: 'يمكن بناؤه بتخفيف دفء السيكاه قليلًا ثم إدخال الكرد بلون شفاف هادئ.',
+                meaning: 'يناسب استمرار الطمأنينة في مساحة أهدأ وأكثر تأملًا.'
+            },
+            'ajam-rast': {
+                method: 'ينفع فيه إبقاء القوة العامة ثم تسكينها في رست أرسخ وأقل اندفاعًا.',
+                meaning: 'يلائم ترسيخ المعنى بعد العجم في مقام يثبت القوة بوقار أكبر.'
+            },
+            'ajam-nahawand': {
+                method: 'يصلح فيه تخفيف حدّة العجم آخرًا ثم فتح النهاوند في جملة أرحب وألين.',
+                meaning: 'يناسب الانتقال من الجلال الظاهر إلى الرحمة أو التفصيل اللطيف.'
+            },
+            'ajam-bayat': {
+                method: 'ينجح بإنزال حضور العجم قليلًا ثم الرجوع إلى بيات هادئ متزن.',
+                meaning: 'يلائم الخروج من القوة العالية إلى استكمال القراءة بسرد منضبط.'
+            },
+            'ajam-hijaz': {
+                method: 'ينفع فيه تسليم العجم بوضوح ثم فتح الحجاز بجملة تحمل افتقارًا وحرارة.',
+                meaning: 'يناسب الانتقال من العظمة والقوة إلى مناجاة المخلوق لربه وافتقاره إليه.'
+            },
+            'ajam-saba': {
+                method: 'الأدق فيه تمام العجم ثم هبوط أوضح أو وقفة خفيفة قبل إظهار انكسار الصبا.',
+                meaning: 'يلائم كسر مشهد القوة إلى مقام الذل والخشوع والتضرع.'
+            },
+            'ajam-sikah': {
+                method: 'يمكن بناؤه بتخفيف صراحة العجم ثم إدخال السيكاه بلطف داخلي ظاهر.',
+                meaning: 'يناسب الانتقال من مشهد النصر أو الجلال إلى الشكر والرجاء والأنس.'
+            },
+            'ajam-kurd': {
+                method: 'ينجح بخفض قوة العجم تدريجيًا ثم تسليم الجملة للكرد في هدوء صاف.',
+                meaning: 'يلائم الانتقال من القوة الجهرية إلى التفكر والسكينة.'
+            },
+            'kurd-bayat': {
+                method: 'ينفع فيه رفع المسار قليلًا من الكرد ثم تثبيت البيات على أرضية أوضح.',
+                meaning: 'يناسب الانتقال من الهدوء الرقيق إلى سرد أكثر رسوخًا وألفة.'
+            },
+            'kurd-nahawand': {
+                method: 'يمكن فتحه بتوسيع الكرد تدريجيًا حتى يستقر النهاوند في امتداد أوضح.',
+                meaning: 'يلائم الانتقال من التأمل الصامت إلى الوصف أو القصة أو التفصيل.',
+            },
+            'kurd-hijaz': {
+                method: 'ينجح بإدخال حرارة محسوبة بعد الكرد حتى يظهر الحجاز من غير كسر حاد.',
+                meaning: 'يناسب الانتقال من الهدوء إلى الرهبة أو المناجاة أو استشعار المسؤولية.'
+            },
+            'kurd-saba': {
+                method: 'ينفع فيه تعميق لون الكرد قليلًا ثم إظهار انكسار الصبا في الجملة التالية.',
+                meaning: 'يلائم الانتقال من الحزن الهادئ إلى الخشوع الأشد والتذلل الأوضح.'
+            },
+            'kurd-rast': {
+                method: 'يصلح فيه فتح المسار بعد الكرد تدريجيًا حتى يثبت الرست بجملة أكثر إعلانًا.',
+                meaning: 'يناسب الخروج من التأمل الداخلي إلى الوضوح والتقرير وإثبات الحقائق.'
+            },
+            'kurd-sikah': {
+                method: 'يمكن بناؤه بإبقاء هدوء الكرد ثم إضافة دفء السيكاه في جملة رقيقة مطمئنة.',
+                meaning: 'يلائم إدخال الرجاء والأنس على جو هادئ شفاف.'
+            },
+            'kurd-ajam': {
+                method: 'ينفع فيه رفع المسار من الكرد بضبط حتى يفتح العجم من جملة ذات حضور بيّن.',
+                meaning: 'يناسب الانتقال من الرقة والتأمل إلى إظهار الجلال والقوة بصورة واضحة.'
+            }
+        };
+
+        const ADMIN_PASSCODE = 'saadabdali62';
+        const ADMIN_AUTH_KEY = 'maqamat-admin-auth-v1';
+        const ADMIN_VISIBILITY_KEY = 'maqamat-admin-visible-v1';
+        const RELEASE_STORAGE_KEY = 'maqamat-release-state-v1';
+        const RECITATION_STORAGE_KEY = 'maqamat-manual-recitation-links-v1';
+        const RECITATION_FOLDER = 'audio/transitions';
+        const REMOVED_RECITATION_PATH = '__removed__';
+        const MANUAL_RELEASE = {
+            releasedSourceLessons: [],
+            releasedTransitions: []
+        };
+        const MANUAL_RECITATION_LINKS = {
+            'saba-ajam': 'audio/transitions/library/saba to ajam.mp4',
+            'saba-bayat': 'audio/transitions/library/saba to bayat.mp4',
+            'saba-hijaz': 'audio/transitions/library/saba to hijaz.mp4',
+            'saba-kurd': 'audio/transitions/library/saba to kurd.mp4',
+            'saba-nahawand': 'audio/transitions/library/saba to nhawand.mp4',
+            'saba-rast': 'audio/transitions/library/saba to rest.mp4',
+            'saba-sikah': 'audio/transitions/library/saba to sika.mp4'
+        };
+
+        const relationWords = {
+            softer: 'يُخفف الجو السابق ويفتح بابًا ألين',
+            stronger: 'يرفع من حضور الجملة ويمنحها قوة أوضح',
+            brighter: 'ينقل الأداء إلى سعة وانشراح أكبر',
+            deeper: 'يدفع المعنى إلى تأثر أعمق وداخلية أوضح',
+            steadier: 'يعيد المسار إلى استقرار أرسخ',
+            subtler: 'ينقل السامع إلى لون أدق وأرهف'
+        };
+
+        function relationType(from, to) {
+            if (from.id === 'saba' && ['nahawand', 'bayat', 'kurd'].includes(to.id)) return relationWords.softer;
+            if (from.id === 'saba' && ['ajam', 'hijaz', 'rast'].includes(to.id)) return relationWords.stronger;
+            if (from.id === 'nahawand' && ['ajam', 'rast'].includes(to.id)) return relationWords.brighter;
+            if (from.id === 'nahawand' && ['saba', 'hijaz'].includes(to.id)) return relationWords.deeper;
+            if (from.id === 'ajam' && ['bayat', 'kurd', 'nahawand'].includes(to.id)) return relationWords.softer;
+            if (from.id === 'bayat' && ['hijaz', 'rast', 'ajam'].includes(to.id)) return relationWords.stronger;
+            if (from.id === 'sikah' && ['bayat', 'kurd'].includes(to.id)) return relationWords.softer;
+            if (from.id === 'hijaz' && ['saba', 'sikah'].includes(to.id)) return relationWords.deeper;
+            if (from.id === 'rast' && ['bayat', 'kurd', 'nahawand'].includes(to.id)) return relationWords.softer;
+            if (from.id === 'kurd' && ['saba', 'sikah'].includes(to.id)) return relationWords.deeper;
+            if (to.id === 'sikah') return relationWords.subtler;
+            if (to.id === 'rast') return relationWords.steadier;
+            if (to.id === 'ajam') return relationWords.brighter;
+            return relationWords.stronger;
+        }
+
+        function transitionDifficulty(from, to) {
+            if (['saba', 'sikah'].includes(from.id) && ['ajam', 'rast'].includes(to.id)) return 'انتقال بعيد نسبيًا';
+            if (from.id === 'ajam' && ['saba', 'sikah'].includes(to.id)) return 'انتقال يحتاج تمهيدًا';
+            if (from.id === 'hijaz' && to.id === 'kurd') return 'انتقال متوسط يحتاج تهدئة';
+            if (from.id === 'nahawand' || to.id === 'nahawand' || from.id === 'bayat' || to.id === 'bayat') return 'انتقال متوسط المرونة';
+            return 'انتقال قابل للبناء التدريجي';
+        }
+
+        function buildDescription(from, to) {
+            return `ينتقل هذا المسار من ${from.character} إلى ${to.character}؛ لذلك فالمطلوب أن يسمع المتلقي خروجًا منضبطًا من ${from.name} ثم دخولًا واضحًا إلى ${to.name} بطريقة ${relationType(from, to)}.`;
+        }
+
+        function buildTrainingBenefit(from, to) {
+            return `يفيد هذا الانتقال في تدريب القارئ على حسن الخروج من ${from.name} بما يراعي أن ${from.release}، ثم إحكام الاستقرار في ${to.name} بما ينسجم مع طابعه العام في ${to.family}.`;
+        }
+
+        function buildCaution(from, to) {
+            return `تنبيه الأداء: ${from.caution}. وبعد الوصول إلى ${to.name} ينبغي مراعاة أن ${to.release}.`;
+        }
+
+        function getStudyGuidance(from, to) {
+            return transitionStudyMap[`${from.id}-${to.id}`] || null;
+        }
+
+        function buildMeaningBridge(from, to) {
+            const guidance = getStudyGuidance(from, to);
+            if (guidance) {
+                return guidance.meaning;
+            }
+
+            return `يناسب هذا المسار التحول من طابع ${from.name} إلى طابع ${to.name} بما يخدم تغير المعنى واتجاه التلاوة.`;
+        }
+
+        function buildMethodHint(from, to) {
+            const guidance = getStudyGuidance(from, to);
+            if (guidance) {
+                return guidance.method;
+            }
+
+            if (from.smoothTargets.includes(to.name)) {
+                return `هذا من المسارات الأقرب من ${from.name}، ويصلح فيه الاعتماد على درجة عبور مشتركة مع تغيير هادئ في الوجهة.`;
+            }
+
+            return `هذا المسار متوسط من جهة التنفيذ؛ ينفع فيه ربط المعنى بالانتقال مع مراعاة راحة الحنجرة واستقلال المقام الهدف عند الدخول.`;
+        }
+
+        function normalizeReleaseState(candidate) {
+            return {
+                releasedSourceLessons: Array.isArray(candidate?.releasedSourceLessons) ? [...new Set(candidate.releasedSourceLessons)] : [],
+                releasedTransitions: Array.isArray(candidate?.releasedTransitions) ? [...new Set(candidate.releasedTransitions)] : []
+            };
+        }
+
+        function normalizeRecitationState(candidate) {
+            if (!candidate || typeof candidate !== 'object') {
+                return { ...MANUAL_RECITATION_LINKS };
+            }
+
+            const entries = Object.fromEntries(
+                Object.entries(candidate)
+                    .filter(([, value]) => value === REMOVED_RECITATION_PATH || (typeof value === 'string' && value.trim()))
+                    .map(([key, value]) => [key, value.trim()])
+            );
+
+            const merged = { ...MANUAL_RECITATION_LINKS, ...entries };
+
+            return Object.fromEntries(
+                Object.entries(merged)
+                    .filter(([, value]) => value !== REMOVED_RECITATION_PATH)
+            );
+        }
+
+        function computeInitialAdminMode() {
+            try {
+                const visible = localStorage.getItem(ADMIN_VISIBILITY_KEY) === 'true';
+                const authenticated = localStorage.getItem(ADMIN_AUTH_KEY) === 'true';
+                return visible && authenticated;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function loadReleaseState() {
+            try {
+                const raw = localStorage.getItem(RELEASE_STORAGE_KEY);
+                if (!raw) {
+                    return normalizeReleaseState(MANUAL_RELEASE);
+                }
+
+                return normalizeReleaseState(JSON.parse(raw));
+            } catch (error) {
+                return normalizeReleaseState(MANUAL_RELEASE);
+            }
+        }
+
+        function loadRecitationState() {
+            try {
+                const raw = localStorage.getItem(RECITATION_STORAGE_KEY);
+                if (!raw) {
+                    return normalizeRecitationState(MANUAL_RECITATION_LINKS);
+                }
+
+                return normalizeRecitationState(JSON.parse(raw));
+            } catch (error) {
+                return normalizeRecitationState(MANUAL_RECITATION_LINKS);
+            }
+        }
+
+        function saveReleaseState() {
+            localStorage.setItem(RELEASE_STORAGE_KEY, JSON.stringify(releaseState));
+        }
+
+        function saveRecitationState() {
+            const persistedState = { ...recitationState };
+
+            Object.keys(MANUAL_RECITATION_LINKS).forEach((transitionId) => {
+                if (persistedState[transitionId] === MANUAL_RECITATION_LINKS[transitionId]) {
+                    delete persistedState[transitionId];
+                }
+            });
+
+            localStorage.setItem(RECITATION_STORAGE_KEY, JSON.stringify(persistedState));
+        }
+
+        function getRawRecitationPath(transitionId) {
+            const value = recitationState[transitionId];
+            return value === REMOVED_RECITATION_PATH ? '' : (value || '');
+        }
+
+        function normalizeRecitationUrl(path) {
+            const trimmed = path.trim();
+
+            if (!trimmed) {
+                return '';
+            }
+
+            if (/^(https?:|file:|blob:|data:)/i.test(trimmed)) {
+                return trimmed;
+            }
+
+            if (/^[a-zA-Z]:\\/.test(trimmed)) {
+                return `file:///${trimmed.replace(/\\/g, '/')}`;
+            }
+
+            return encodeURI(trimmed);
+        }
+
+        function hasRecitation(transitionId) {
+            return Boolean(getRawRecitationPath(transitionId));
+        }
+
+        function isManuallyReleased(transitionId, from) {
+            return releaseState.releasedSourceLessons.includes(from.id)
+                || releaseState.releasedTransitions.includes(transitionId);
+        }
+
+        function isTransitionOpen(transition) {
+            return hasRecitation(transition.id) && isManuallyReleased(transition.id, transition.from);
+        }
+
+        function telegramStatusCopy(transition) {
+            if (!hasRecitation(transition.id)) {
+                return 'الفيديو غير مضاف بعد.';
+            }
+
+            if (!isManuallyReleased(transition.id, transition.from)) {
+                return 'يعمل بعد تفعيله من الإدارة.';
+            }
+
+            return 'الفيديو متاح الآن.';
+        }
+
+        function getTransitionRecitationLink(transition) {
+            return { label: 'تشغيل الفيديو', url: normalizeRecitationUrl(getRawRecitationPath(transition.id)) };
+        }
+
+        const transitions = [];
+
+        maqamat.forEach((from) => {
+            maqamat.forEach((to) => {
+                if (from.id === to.id) {
+                    return;
+                }
+
+                transitions.push({
+                    id: `${from.id}-${to.id}`,
+                    from,
+                    to,
+                    difficulty: transitionDifficulty(from, to),
+                    description: buildDescription(from, to),
+                    benefit: buildTrainingBenefit(from, to),
+                    caution: buildCaution(from, to),
+                    meaningBridge: buildMeaningBridge(from, to),
+                    methodHint: buildMethodHint(from, to)
+                });
+            });
+        });
+
+        const methodGrid = document.getElementById('methodGrid');
+        const maqamSummaryGrid = document.getElementById('maqamSummaryGrid');
+        const pageTitle = document.getElementById('pageTitle');
+        const adminAccessButton = document.getElementById('adminAccessButton');
+        const adminModal = document.getElementById('adminModal');
+        const adminPasswordInput = document.getElementById('adminPasswordInput');
+        const adminSubmitButton = document.getElementById('adminSubmitButton');
+        const adminCancelButton = document.getElementById('adminCancelButton');
+        const adminError = document.getElementById('adminError');
+        const playerModal = document.getElementById('playerModal');
+        const playerTitle = document.getElementById('playerTitle');
+        const playerDescription = document.getElementById('playerDescription');
+        const playerCloseButton = document.getElementById('playerCloseButton');
+        const recitationPlayer = document.getElementById('recitationPlayer');
+        const controlPanelDetails = document.getElementById('controlPanelDetails');
+        const transitionControlSelect = document.getElementById('transitionControlSelect');
+        const transitionControlStatus = document.getElementById('transitionControlStatus');
+        const openTransitionButton = document.getElementById('openTransitionButton');
+        const closeTransitionButton = document.getElementById('closeTransitionButton');
+        const transitionsGrid = document.getElementById('transitionsGrid');
+        const transitionsCount = document.getElementById('transitionsCount');
+        let adminMode = computeInitialAdminMode();
+        const releaseState = loadReleaseState();
+        const recitationState = loadRecitationState();
+
+        function applyAdminMode() {
+            document.body.classList.toggle('admin-mode', adminMode);
+            localStorage.setItem(ADMIN_VISIBILITY_KEY, adminMode ? 'true' : 'false');
+            localStorage.setItem(ADMIN_AUTH_KEY, adminMode ? 'true' : localStorage.getItem(ADMIN_AUTH_KEY) || 'false');
+            adminAccessButton.textContent = adminMode ? 'إخفاء الإدارة' : 'دخول الإدارة';
+
+            if (!adminMode) {
+                controlPanelDetails.removeAttribute('open');
+            }
+        }
+
+        function closeAdminModal() {
+            adminModal.classList.remove('is-visible');
+            adminModal.setAttribute('aria-hidden', 'true');
+            adminPasswordInput.value = '';
+            adminError.textContent = '';
+        }
+
+        function openAdminModal() {
+            adminModal.classList.add('is-visible');
+            adminModal.setAttribute('aria-hidden', 'false');
+            adminPasswordInput.value = '';
+            adminError.textContent = '';
+            adminPasswordInput.focus();
+        }
+
+        function buildPreferredVideoSources(videoUrl) {
+            if (typeof videoUrl !== 'string' || !videoUrl.trim()) {
+                return [];
+            }
+
+            const sources = [];
+
+            if (/\.mp4(?=($|[?#]))/i.test(videoUrl)) {
+                sources.push({
+                    src: videoUrl.replace(/\.mp4(?=($|[?#]))/i, '.webm'),
+                    type: 'video/webm'
+                });
+            }
+
+            sources.push({
+                src: videoUrl,
+                type: /\.webm(?=($|[?#]))/i.test(videoUrl) ? 'video/webm' : 'video/mp4'
+            });
+
+            return sources;
+        }
+
+        function closePlayerModal() {
+            playerModal.classList.remove('is-visible');
+            playerModal.setAttribute('aria-hidden', 'true');
+            recitationPlayer.pause();
+            recitationPlayer.innerHTML = '';
+            recitationPlayer.removeAttribute('src');
+            recitationPlayer.load();
+        }
+
+        function openPlayerModal(transition) {
+            const recitation = getTransitionRecitationLink(transition);
+
+            if (!recitation?.url) {
+                return;
+            }
+
+            playerTitle.textContent = `${recitation.label} - ${transition.from.name} إلى ${transition.to.name}`;
+            playerDescription.textContent = 'سيستخدم المشغل نسخة webm تلقائيًا إذا كانت متوفرة، وإلا فسيعود إلى ملف الفيديو الأصلي.';
+            recitationPlayer.pause();
+            recitationPlayer.innerHTML = buildPreferredVideoSources(recitation.url)
+                .map((source) => `<source src="${source.src}" type="${source.type}">`)
+                .join('');
+            recitationPlayer.removeAttribute('src');
+            recitationPlayer.muted = false;
+            recitationPlayer.volume = 1;
+            recitationPlayer.currentTime = 0;
+            recitationPlayer.load();
+
+            playerModal.classList.add('is-visible');
+            playerModal.setAttribute('aria-hidden', 'false');
+
+            const playAttempt = recitationPlayer.play();
+
+            if (playAttempt && typeof playAttempt.catch === 'function') {
+                playAttempt.catch(() => {
+                    recitationPlayer.focus();
+                });
+            }
+        }
+
+        function submitAdminAccess() {
+            if (adminPasswordInput.value !== ADMIN_PASSCODE) {
+                adminError.textContent = 'كلمة المرور غير صحيحة';
+                adminPasswordInput.focus();
+                adminPasswordInput.select();
+                return;
+            }
+
+            localStorage.setItem(ADMIN_AUTH_KEY, 'true');
+            closeAdminModal();
+            adminMode = true;
+            applyAdminMode();
+            controlPanelDetails.setAttribute('open', 'open');
+            controlPanelDetails.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function toggleAdminMode() {
+            if (!adminMode) {
+                openAdminModal();
+                return;
+            }
+
+            adminMode = !adminMode;
+            applyAdminMode();
+
+            if (adminMode) {
+                controlPanelDetails.setAttribute('open', 'open');
+            }
+        }
+
+        function renderTransitionSelect() {
+            const optionsMarkup = transitions.map((transition) => {
+                const opened = isManuallyReleased(transition.id, transition.from);
+                const hasFile = hasRecitation(transition.id) ? '• ملف محفوظ' : '• بلا تلاوة';
+                return `<option value="${transition.id}">${opened ? '● ' : ''}${transition.from.name} ← ${transition.to.name} ${hasFile}</option>`;
+            }).join('');
+
+            const selectedTransition = transitionControlSelect.value;
+
+            transitionControlSelect.innerHTML = optionsMarkup;
+
+            if (selectedTransition) {
+                transitionControlSelect.value = selectedTransition;
+            }
+
+            if (!transitionControlSelect.value && transitions.length) {
+                transitionControlSelect.value = transitions[0].id;
+            }
+
+            renderTransitionControlStatus();
+        }
+
+        function renderTransitionControlStatus() {
+            const transition = transitions.find((item) => item.id === transitionControlSelect.value);
+            if (!transition) {
+                transitionControlStatus.textContent = '';
+                openTransitionButton.disabled = true;
+                closeTransitionButton.disabled = true;
+                return;
+            }
+
+            if (!hasRecitation(transition.id)) {
+                transitionControlStatus.textContent = 'لا يوجد ملف فيديو مربوط بهذه الانتقالة حاليًا.';
+                openTransitionButton.disabled = true;
+                closeTransitionButton.disabled = true;
+                openTransitionButton.textContent = 'السماح بالتشغيل';
+                closeTransitionButton.textContent = 'إيقاف التشغيل';
+                return;
+            }
+
+            if (isManuallyReleased(transition.id, transition.from)) {
+                transitionControlStatus.textContent = 'هذه الانتقالة متاحة الآن، وزر تشغيل الفيديو ظاهر في البطاقة.';
+                openTransitionButton.disabled = true;
+                closeTransitionButton.disabled = false;
+                openTransitionButton.textContent = 'مفعّل الآن';
+                closeTransitionButton.textContent = 'إيقاف التشغيل';
+                return;
+            }
+
+            transitionControlStatus.textContent = 'هذه الانتقالة مقفلة الآن. اضغط السماح بالتشغيل لإتاحتها.';
+            openTransitionButton.disabled = false;
+            closeTransitionButton.disabled = true;
+            openTransitionButton.textContent = 'السماح بالتشغيل';
+            closeTransitionButton.textContent = 'مقفل الآن';
+        }
+
+        function refreshReleaseUI() {
+            saveReleaseState();
+            renderTransitionSelect();
+            renderTransitions();
+        }
+
+        function refreshRecitationUI() {
+            saveRecitationState();
+            renderTransitionSelect();
+            renderTransitions();
+        }
+
+        function setManualRecitationPath(transitionId, path) {
+            if (!transitionId) {
+                return;
+            }
+
+            if (!path) {
+                if (MANUAL_RECITATION_LINKS[transitionId]) {
+                    recitationState[transitionId] = REMOVED_RECITATION_PATH;
+                } else {
+                    delete recitationState[transitionId];
+                }
+            } else {
+                recitationState[transitionId] = path.trim();
+            }
+
+            refreshRecitationUI();
+        }
+
+        function openSingleTransition(transitionId) {
+            if (!releaseState.releasedTransitions.includes(transitionId)) {
+                releaseState.releasedTransitions = [...releaseState.releasedTransitions, transitionId];
+                refreshReleaseUI();
+            }
+        }
+
+        function closeSingleTransition(transitionId) {
+            releaseState.releasedTransitions = releaseState.releasedTransitions.filter((id) => id !== transitionId);
+            refreshReleaseUI();
+        }
+
+        function renderMethodology() {
+            methodGrid.innerHTML = methodologyPrinciples.map((item) => `
+                <article class="method-card">
+                    <strong>${item.title}</strong>
+                    <p>${item.copy}</p>
+                </article>
+            `).join('');
+        }
+
+        function renderMaqamSummaries() {
+            maqamSummaryGrid.innerHTML = maqamat.map((maqam) => `
+                <article class="maqam-summary-card">
+                    <h3>${maqam.name}</h3>
+                    <p class="summary-meta">${maqam.family}</p>
+                    <p>${maqam.role}</p>
+                    <div class="summary-line">الأقرب غالبًا: ${maqam.smoothTargets.join('، ')}.</div>
+                </article>
+            `).join('');
+        }
+
+        function renderTransitions() {
+            const items = transitions;
+            transitionsCount.textContent = String(transitions.length);
+
+            transitionsGrid.innerHTML = items.map((transition, index) => `
+                <article class="transition-card">
+                    <div class="transition-top">
+                        <div>
+                            <h3 class="transition-route">${transition.from.name} ← ${transition.to.name}</h3>
+                            <span class="route-pill">من ${transition.from.name} إلى ${transition.to.name}</span>
+                        </div>
+                        <span class="transition-index">الانتقالة ${index + 1}</span>
+                    </div>
+                    <div class="transition-copy">
+                        <div>
+                            <strong>وصف الانتقال</strong>
+                            <p>${transition.description}</p>
+                        </div>
+                        <div>
+                            <strong>الفائدة التدريبية</strong>
+                            <p>${transition.benefit}</p>
+                        </div>
+                        <div>
+                            <strong>تنبيه عملي</strong>
+                            <p>${transition.caution}</p>
+                        </div>
+                        <div>
+                            <strong>مرتكز المعنى</strong>
+                            <p>${transition.meaningBridge}</p>
+                        </div>
+                        <div>
+                            <strong>مفتاح التنفيذ</strong>
+                            <p>${transition.methodHint}</p>
+                        </div>
+                        <div class="chips">
+                            <span class="chip">${transition.difficulty}</span>
+                            <span class="chip">${transition.from.family}</span>
+                            <span class="chip">${transition.to.family}</span>
+                        </div>
+                        <div class="transition-actions">
+                            ${isTransitionOpen(transition)
+                                ? `<button class="telegram-link" type="button" data-transition-play="${transition.id}">${getTransitionRecitationLink(transition).label}</button>`
+                                : `<button class="telegram-link is-locked" type="button" disabled>${hasRecitation(transition.id) ? 'تشغيل الفيديو' : 'الفيديو غير متاح'}</button>`}
+                            <span class="transition-link-note">${telegramStatusCopy(transition)}</span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        applyAdminMode();
+        renderMethodology();
+        renderMaqamSummaries();
+        renderTransitionSelect();
+        renderTransitions();
+
+        pageTitle.addEventListener('dblclick', toggleAdminMode);
+        adminAccessButton.addEventListener('click', toggleAdminMode);
+        adminSubmitButton.addEventListener('click', submitAdminAccess);
+        adminCancelButton.addEventListener('click', closeAdminModal);
+        playerCloseButton.addEventListener('click', closePlayerModal);
+        adminPasswordInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                submitAdminAccess();
+            }
+
+            if (event.key === 'Escape') {
+                closeAdminModal();
+            }
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && playerModal.classList.contains('is-visible')) {
+                closePlayerModal();
+            }
+        });
+        playerModal.addEventListener('click', (event) => {
+            if (event.target === playerModal) {
+                closePlayerModal();
+            }
+        });
+        transitionsGrid.addEventListener('click', (event) => {
+            const playButton = event.target.closest('[data-transition-play]');
+
+            if (!playButton) {
+                return;
+            }
+
+            const transition = transitions.find((item) => item.id === playButton.dataset.transitionPlay);
+
+            if (!transition || !isTransitionOpen(transition)) {
+                return;
+            }
+
+            openPlayerModal(transition);
+        });
+
+        openTransitionButton.addEventListener('click', () => {
+            openSingleTransition(transitionControlSelect.value);
+        });
+
+        closeTransitionButton.addEventListener('click', () => {
+            closeSingleTransition(transitionControlSelect.value);
+        });
+
+        transitionControlSelect.addEventListener('change', renderTransitionControlStatus);
+    </script>
+</body>
+</html>
