@@ -1,0 +1,21 @@
+{
+  "name": "انتقالات المقامات",
+  "short_name": "المقامات",
+  "description": "مرجع تدريبي لانتقالات المقامات الرئيسة مع تشغيل الفيديو بعد التفعيل.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4efe5",
+  "theme_color": "#205e63",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
